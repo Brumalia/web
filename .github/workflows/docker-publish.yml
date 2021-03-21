@@ -1,0 +1,46 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  # TODO: Change variable to your image's name.
+  IMAGE_NAME: brumalia/web
+
+jobs:
+  # Run tests.
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          docker build --build-arg wintercms_version="dev-develop" . --file Dockerfile
+
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:
+    # Ensure test job passes before pushing image.
+    needs: test
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build --build-arg wintercms_version="dev-develop" . --file Dockerfile --tag $IMAGE_NAME:dev-develop
+
+      - name: Log into registry
+        run: echo "${{ secrets.docker_token }}" | docker login -u ${{ secrets.docker_username }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker push $IMAGE_ID:dev-develop
