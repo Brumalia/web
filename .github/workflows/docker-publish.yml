@@ -13,11 +13,11 @@ env:
 jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
-  strategy:
-    matrix:
-      version: ["dev-develop"]
-
   test:
+    strategy:
+      matrix:
+        version: ["dev-develop"]
+
     runs-on: ubuntu-latest
 
     steps:
