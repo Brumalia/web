@@ -1,7 +1,8 @@
-FROM php:7.4-apache
-LABEL maintainer="Daniel A. Hawton <daniel@hawton.org>"
-
 ARG wintercms_version="dev-develop"
+ARG php_version="7.4-apache"
+
+FROM brumalia/base:${php_version}
+LABEL maintainer="Daniel A. Hawton <daniel@hawton.org>"
 
 RUN a2enmod expires rewrite
 
