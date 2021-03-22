@@ -11,7 +11,8 @@ USER www-data
 WORKDIR /var/www
 
 # Install via composer
-RUN composer create-project wintercms/winter brumalia-install "${wintercms_version}" --no-interaction --no-scripts && \
+RUN echo "Installing ${wintercms_version}" && \
+    composer create-project wintercms/winter=${winter_version} brumalia-install --no-interaction --no-scripts && \
     mv -T /var/www/brumalia-install /var/www/html
 
 WORKDIR /var/www/html
