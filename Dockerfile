@@ -1,8 +1,8 @@
-ARG wintercms_version="dev-develop"
 ARG php_version="7.4-apache"
-
 FROM brumalia/base:${php_version}
 LABEL maintainer="Daniel A. Hawton <daniel@hawton.org>"
+
+ARG wintercms_version="dev-develop"
 
 COPY files/ /
 
@@ -12,7 +12,7 @@ WORKDIR /var/www
 
 # Install via composer
 RUN echo "Installing ${wintercms_version}" && \
-    composer create-project wintercms/winter=${winter_version} brumalia-install --no-interaction --no-scripts && \
+    composer create-project wintercms/winter brumalia-install "${winter_version}" --no-interaction --no-scripts && \
     mv -T /var/www/brumalia-install /var/www/html
 
 WORKDIR /var/www/html
