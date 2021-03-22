@@ -12,7 +12,7 @@ WORKDIR /var/www
 
 # Install via composer
 RUN echo "Installing ${wintercms_version}" && \
-    composer create-project wintercms/winter brumalia-install "${winter_version}" --no-interaction --no-scripts && \
+    composer create-project wintercms/winter brumalia-install "${wintercms_version}" --no-interaction --no-scripts && \
     mv -T /var/www/brumalia-install /var/www/html
 
 WORKDIR /var/www/html
